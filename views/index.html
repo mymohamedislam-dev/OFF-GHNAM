@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OFF-GHANEM - نموذج التسجيل</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="hero">
+    <h1>🚌 OFF-GHANEM</h1>
+    <p>نموذج التسجيل للرحلات</p>
+  </div>
+
+  <div class="container">
+    <div id="message"></div>
+    
+    <div class="form-container">
+      <h2 style="color: #000; margin-bottom: 30px; text-align: center;">سجل الآن</h2>
+      <form id="registrationForm">
+        <div class="form-group">
+          <label for="firstName">الاسم الأول *</label>
+          <input 
+            type="text" 
+            id="firstName" 
+            name="firstName" 
+            placeholder="أدخل اسمك الأول"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">اللقب *</label>
+          <input 
+            type="text" 
+            id="lastName" 
+            name="lastName" 
+            placeholder="أدخل لقبك"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="phoneNumber">رقم الهاتف *</label>
+          <input 
+            type="tel" 
+            id="phoneNumber" 
+            name="phoneNumber" 
+            placeholder="أدخل رقم هاتفك"
+            required
+            pattern="[0-9\+\-\s\(\)]{10,}"
+          >
+        </div>
+
+        <button type="submit" class="btn-primary">تسجيل</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const phoneNumber = document.getElementById('phoneNumber').value;
+      const messageDiv = document.getElementById('message');
+
+      try {
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ firstName, lastName, phoneNumber })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          messageDiv.className = 'message success';
+          messageDiv.textContent = '✓ تم التسجيل بنجاح! سيتم التواصل معك قريباً';
+          document.getElementById('registrationForm').reset();
+        } else {
+          messageDiv.className = 'message error';
+          messageDiv.textContent = '✗ ' + (data.error || 'حدث خطأ في التسجيل');
+        }
+      } catch (error) {
+        messageDiv.className = 'message error';
+        messageDiv.textContent = '✗ خطأ في الاتصال بالخادم';
+        console.error('Error:', error);
+      }
+
+      // إخفاء الرسالة بعد 5 ثوان
+      setTimeout(() => {
+        messageDiv.textContent = '';
+        messageDiv.className = '';
+      }, 5000);
+    });
+  </script>
+</body>
+</html>

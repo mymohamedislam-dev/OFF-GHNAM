@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#dc143c">
+  <meta name="description" content="منصة تسجيل الرحلات من OFF-GHANEM">
+  <title>OFF-GHANEM - نموذج التسجيل</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+      direction: rtl;
+      text-align: right;
+      min-height: 100vh;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #000 0%, #dc143c 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .hero h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero p {
+      font-size: 1.1em;
+      opacity: 0.95;
+    }
+
+    /* Navigation */
+    .nav-tabs {
+      background: white;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .nav-tabs button {
+      flex: 1;
+      max-width: 200px;
+      padding: 15px 30px;
+      border: none;
+      background: #f0f0f0;
+      color: #333;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      transition: all 0.3s;
+      border-bottom: 3px solid transparent;
+    }
+
+    .nav-tabs button:hover {
+      background: #e0e0e0;
+    }
+
+    .nav-tabs button.active {
+      background: white;
+      color: #dc143c;
+      border-bottom-color: #dc143c;
+    }
+
+    /* Container */
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    /* Content Sections */
+    .content-section {
+      display: none;
+    }
+
+    .content-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Form Container */
+    .form-container {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-top: 5px solid #dc143c;
+    }
+
+    .form-container h2 {
+      color: #000;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 1.8em;
+    }
+
+    .form-container p {
+      color: #666;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #000;
+      font-size: 0.95em;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 1em;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #dc143c;
+      box-shadow: 0 0 8px rgba(220, 20, 60, 0.25);
+      background: #fff;
+    }
+
+    /* Prevent zoom on iOS */
+    input[type="text"],
+    input[type="tel"],
+    button {
+      font-size: 16px !important;
+    }
+
+    /* Buttons */
+    button {
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      background-color: #dc143c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    .btn-primary:hover {
+      background-color: #b30030;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(220, 20, 60, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    /* Messages */
+    .message {
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: bold;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    /* Admin Section */
+    .registrations-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .registration-card {
+      background: white;
+      border-left: 5px solid #dc143c;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+    }
+
+    .registration-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .registration-card h3 {
+      color: #000;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+    }
+
+    .registration-info {
+      margin-bottom: 15px;
+    }
+
+    .registration-info p {
+      margin: 10px 0;
+      color: #333;
+      font-size: 0.95em;
+    }
+
+    .registration-info strong {
+      color: #000;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-accepted {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .status-rejected {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .btn-accept,
+    .btn-reject,
+    .btn-delete {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.9em;
+    }
+
+    .btn-accept {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .btn-accept:hover {
+      background-color: #218838;
+    }
+
+    .btn-reject {
+      background-color: #dc143c;
+      color: white;
+    }
+
+    .btn-reject:hover {
+      background-color: #b30030;
+    }
+
+    .btn-delete {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background-color: #5a6268;
+    }
+
+    .btn-accept:disabled,
+    .btn-reject:disabled,
+    .btn-delete:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 30px;
+      color: #999;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .empty-state h2 {
+      color: #666;
+      margin-bottom: 10px;
+      font-size: 1.5em;
+    }
+
+    .empty-state p {
+      color: #999;
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .stat-box {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .stat-box h3 {
+      color: #dc143c;
+      font-size: 1.8em;
+      margin-bottom: 5px;
+    }
+
+    .stat-box p {
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    /* Responsive - Tablets */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2em;
+      }
+
+      .form-container {
+        padding: 25px;
+      }
+
+      .registrations-list {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-tabs {
+        flex-direction: column;
+      }
+
+      .nav-tabs button {
+        max-width: 100%;
+      }
+    }
+
+    /* Responsive - Mobile Phones */
+    @media (max-width: 480px) {
+      body {
+        font-size: 16px;
+      }
+
+      .hero {
+        padding: 40px 15px;
+      }
+
+      .hero h1 {
+        font-size: 1.8em;
+        margin-bottom: 5px;
+      }
+
+      .hero p {
+        font-size: 1em;
+      }
+
+      .nav-tabs {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .nav-tabs button {
+        flex: 1;
+        min-width: 130px;
+        padding: 12px 15px;
+        font-size: 0.9em;
+      }
+
+      .container {
+        max-width: 100%;
+        margin: 15px auto;
+        padding: 10px;
+      }
+
+      .form-container {
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      .form-container h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-size: 0.95em;
+        margin-bottom: 6px;
+      }
+
+      input {
+        padding: 16px 12px;
+        font-size: 16px;
+        border-radius: 5px;
+      }
+
+      input:focus {
+        box-shadow: 0 0 10px rgba(220, 20, 60, 0.3);
+      }
+
+      .btn-primary {
+        padding: 18px;
+        font-size: 1em;
+        border-radius: 5px;
+        margin-top: 15px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .stat-box {
+        padding: 15px 10px;
+        border-radius: 6px;
+      }
+
+      .stat-box h3 {
+        font-size: 1.5em;
+        margin-bottom: 3px;
+      }
+
+      .stat-box p {
+        font-size: 0.8em;
+      }
+
+      .registrations-list {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .registration-card {
+        padding: 20px;
+        border-left-width: 4px;
+      }
+
+      .registration-card h3 {
+        font-size: 1.1em;
+        margin-bottom: 12px;
+      }
+
+      .registration-info p {
+        font-size: 0.9em;
+        margin: 8px 0;
+      }
+
+      .status-badge {
+        padding: 5px 10px;
+        font-size: 0.8em;
+        display: block;
+        text-align: center;
+        margin-bottom: 12px;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .btn-accept,
+      .btn-reject {
+        flex: 1;
+        padding: 14px 10px;
+        font-size: 0.9em;
+        border-radius: 5px;
+      }
+
+      .empty-state {
+        padding: 40px 20px;
+        border-radius: 6px;
+      }
+
+      .empty-state h2 {
+        font-size: 1.3em;
+        margin-bottom: 8px;
+      }
+
+      .empty-state p {
+        font-size: 0.9em;
+      }
+
+      /* Fix for better mobile input */
+      input[type="text"],
+      input[type="tel"] {
+        appearance: none;
+        border-radius: 5px;
+      }
+
+      /* Hide zoom on input focus */
+      input {
+        font-size: 16px !important;
+      }
+
+      /* Improve touch targets */
+      button {
+        min-height: 48px;
+      }
+    }
+
+    /* Extra Small Devices */
+    @media (max-width: 360px) {
+      .hero h1 {
+        font-size: 1.5em;
+      }
+
+      .form-container {
+        padding: 15px;
+      }
+
+      .nav-tabs button {
+        min-width: 110px;
+        padding: 10px 12px;
+        font-size: 0.85em;
+      }
+
+      .btn-primary {
+        padding: 16px;
+        font-size: 0.95em;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>🚌 OFF-GHANEM</h1>
+    <p>منصة تسجيل الرحلات المتقدمة</p>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('registration')">📝 التسجيل</button>
+    <button class="tab-btn" onclick="switchTab('admin')">🎛️ لوحة التحكم</button>
+  </div>
+
+  <div class="container">
+    <!-- قسم التسجيل -->
+    <div id="registration" class="content-section active">
+      <div id="message" class="message" style="display: none;"></div>
+      
+      <div class="form-container">
+        <h2>سجل الآن</h2>
+        <form id="registrationForm">
+          <div class="form-group">
+            <label for="firstName">الاسم الأول *</label>
+            <input 
+              type="text" 
+              id="firstName" 
+              name="firstName" 
+              placeholder="أدخل اسمك الأول"
+              autocomplete="given-name"
+              inputmode="text"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">اللقب *</label>
+            <input 
+              type="text" 
+              id="lastName" 
+              name="lastName" 
+              placeholder="أدخل لقبك"
+              autocomplete="family-name"
+              inputmode="text"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="phoneNumber">رقم الهاتف *</label>
+            <input 
+              type="tel" 
+              id="phoneNumber" 
+              name="phoneNumber" 
+              placeholder="أدخل رقم هاتفك (مثال: 0612345678)"
+              autocomplete="tel"
+              inputmode="tel"
+              pattern="[0-9\+\-\s\(\)]{9,}"
+              required
+            >
+          </div>
+
+          <button type="submit" class="btn-primary">📤 إرسال الطلب</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- قسم حماية لوحة التحكم -->
+    <div id="admin-login" class="content-section">
+      <div class="form-container">
+        <h2>🔐 لوحة التحكم</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 20px;">أدخل كلمة المرور للوصول</p>
+        <div class="form-group">
+          <label for="adminPassword">كلمة المرور *</label>
+          <input 
+            type="password" 
+            id="adminPassword" 
+            placeholder="أدخل كلمة المرور"
+            inputmode="numeric"
+          >
+        </div>
+        <button type="button" class="btn-primary" onclick="verifyPassword()">🔓 دخول</button>
+        <p style="text-align: center; color: #999; font-size: 0.9em; margin-top: 15px;">
+          تم تعيين كلمة مرور قوية
+        </p>
+      </div>
+    </div>
+
+    <!-- قسم لوحة التحكم الحقيقية -->
+    <div id="admin" class="content-section">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="color: #000; margin: 0; font-size: 1.5em;">📊 لوحة التحكم</h2>
+        <button type="button" onclick="logoutAdmin()" style="background: #999; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">🚪 خروج</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat-box">
+          <h3 id="totalCount">0</h3>
+          <p>إجمالي التسجيلات</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="pendingCount">0</h3>
+          <p>المعلقة</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="acceptedCount">0</h3>
+          <p>المقبولة</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="rejectedCount">0</h3>
+          <p>المرفوضة</p>
+        </div>
+      </div>
+
+      <div id="registrationsList" class="registrations-list">
+        <div class="empty-state">
+          <h2>🔄 جاري التحميل...</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // البيانات المحفوظة في localStorage
+    const STORAGE_KEY = 'off_ghanem_registrations';
+
+    // تبديل الأقسام
+    function switchTab(tabName) {
+      // إخفاء جميع الأقسام
+      document.querySelectorAll('.content-section').forEach(el => {
+        el.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // التحقق من الدخول إلى لوحة التحكم
+      if (tabName === 'admin') {
+        // التحقق من هل المستخدم دخل من قبل
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+          document.getElementById('admin').classList.add('active');
+          loadRegistrations();
+        } else {
+          document.getElementById('admin-login').classList.add('active');
+        }
+        event.target.classList.add('active');
+      } else {
+        // عرض القسم المختار
+        document.getElementById(tabName).classList.add('active');
+        event.target.classList.add('active');
+      }
+    }
+
+    // التحقق من كلمة المرور
+    function verifyPassword() {
+      const password = document.getElementById('adminPassword').value;
+      const correctPassword = 'Mo0782447936'; // كلمة المرور الجديدة
+
+      if (password === correctPassword) {
+        // حفظ الدخول في sessionStorage
+        sessionStorage.setItem('adminLoggedIn', 'true');
+        
+        // إخفاء شاشة تسجيل الدخول وعرض لوحة التحكم
+        document.getElementById('admin-login').classList.remove('active');
+        document.getElementById('admin').classList.add('active');
+        
+        // تحميل البيانات
+        loadRegistrations();
+        
+        // رسالة نجاح
+        alert('✓ تم الدخول بنجاح');
+        document.getElementById('adminPassword').value = '';
+      } else {
+        alert('✗ كلمة المرور غير صحيحة');
+        document.getElementById('adminPassword').value = '';
+        document.getElementById('adminPassword').focus();
+      }
+    }
+
+    // خروج من لوحة التحكم
+    function logoutAdmin() {
+      sessionStorage.removeItem('adminLoggedIn');
+      document.getElementById('admin').classList.remove('active');
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('registration').classList.add('active');
+      document.querySelector('[onclick="switchTab(\'registration\')"]').classList.add('active');
+    }
+
+    // السماح بالدخول عند الضغط على Enter
+    document.addEventListener('DOMContentLoaded', () => {
+      const passwordInput = document.getElementById('adminPassword');
+      if (passwordInput) {
+        passwordInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            verifyPassword();
+          }
+        });
+      }
+    });
+
+    // الحصول على البيانات من localStorage
+    function getRegistrations() {
+      const data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    }
+
+    // حفظ البيانات في localStorage
+    function saveRegistrations(registrations) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(registrations));
+    }
+
+    // معالجة إرسال النموذج
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const phoneNumber = document.getElementById('phoneNumber').value.trim();
+      const messageDiv = document.getElementById('message');
+
+      if (!firstName || !lastName || !phoneNumber) {
+        showMessage('يرجى ملء جميع الحقول', 'error');
+        return;
+      }
+
+      // إضافة تسجيل جديد
+      const registrations = getRegistrations();
+      
+      // التحقق من حد الـ 25 تسجيل
+      if (registrations.length >= 25) {
+        showMessage('✗ عذراً، امتلأت حدود التسجيل (25 شخص فقط)', 'error');
+        return;
+      }
+      
+      const newRegistration = {
+        id: Date.now(),
+        firstName,
+        lastName,
+        phoneNumber,
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      };
+
+      registrations.push(newRegistration);
+      saveRegistrations(registrations);
+
+      showMessage('✓ تم التسجيل بنجاح! سيتم التواصل معك قريباً', 'success');
+      this.reset();
+
+      // مسح الرسالة بعد 3 ثواني
+      setTimeout(() => {
+        messageDiv.style.display = 'none';
+      }, 3000);
+    });
+
+    // عرض الرسائل
+    function showMessage(text, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = text;
+      messageDiv.className = 'message ' + type;
+      messageDiv.style.display = 'block';
+    }
+
+    // تحميل وعرض التسجيلات
+    function loadRegistrations() {
+      const registrations = getRegistrations();
+      const container = document.getElementById('registrationsList');
+      
+      // تحديث الإحصائيات
+      updateStats(registrations);
+
+      // تصفية المعلقة والمقبولة فقط (إخفاء المرفوضة)
+      const filtered = registrations.filter(r => r.status !== 'rejected');
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <h2>📭 لا توجد تسجيلات حتى الآن</h2>
+            <p>سيظهر هنا التسجيلات الجديدة</p>
+          </div>
+        `;
+        return;
+      }
+
+      // ترتيب حسب التاريخ الأحدث أولاً
+      const sorted = [...filtered].reverse();
+
+      container.innerHTML = sorted.map(reg => `
+        <div class="registration-card">
+          <h3>${reg.firstName} ${reg.lastName}</h3>
+          
+          <div class="registration-info">
+            <p><strong>☎️ الهاتف:</strong> <a href="tel:${reg.phoneNumber}" style="color: #dc143c; text-decoration: none;">${reg.phoneNumber}</a></p>
+            <p><strong>📅 التاريخ:</strong> ${formatDate(reg.createdAt)}</p>
+          </div>
+
+          <span class="status-badge status-${reg.status}">
+            ${getStatusText(reg.status)}
+          </span>
+
+          ${reg.status === 'pending' ? `
+            <div class="button-group">
+              <button class="btn-accept" onclick="acceptRegistration(${reg.id})">✓ قبول</button>
+              <button class="btn-reject" onclick="rejectRegistration(${reg.id})">✗ رفض</button>
+              <button class="btn-delete" onclick="deleteRegistration(${reg.id})">🗑️ حذف</button>
+            </div>
+          ` : `
+            <div class="button-group">
+              <button class="btn-delete" onclick="deleteRegistration(${reg.id})" style="flex: 1;">🗑️ حذف</button>
+            </div>
+          `}
+        </div>
+      `).join('');
+    }
+
+    // تحديث الإحصائيات
+    function updateStats(registrations) {
+      document.getElementById('totalCount').textContent = registrations.length;
+      document.getElementById('pendingCount').textContent = 
+        registrations.filter(r => r.status === 'pending').length;
+      document.getElementById('acceptedCount').textContent = 
+        registrations.filter(r => r.status === 'accepted').length;
+      document.getElementById('rejectedCount').textContent = 
+        registrations.filter(r => r.status === 'rejected').length;
+    }
+
+    // قبول التسجيل
+    function acceptRegistration(id) {
+      if (confirm('هل تريد قبول هذا التسجيل؟')) {
+        const registrations = getRegistrations();
+        const index = registrations.findIndex(r => r.id === id);
+        if (index !== -1) {
+          registrations[index].status = 'accepted';
+          saveRegistrations(registrations);
+          loadRegistrations();
+        }
+      }
+    }
+
+    // رفض التسجيل
+    function rejectRegistration(id) {
+      if (confirm('هل تريد رفض هذا التسجيل؟')) {
+        const registrations = getRegistrations();
+        const index = registrations.findIndex(r => r.id === id);
+        if (index !== -1) {
+          registrations[index].status = 'rejected';
+          saveRegistrations(registrations);
+          loadRegistrations();
+        }
+      }
+    }
+
+    // حذف التسجيل
+    function deleteRegistration(id) {
+      if (confirm('⚠️ هل تريد حذف هذا التسجيل بشكل نهائي؟ (لا يمكن التراجع)')) {
+        const registrations = getRegistrations();
+        const filtered = registrations.filter(r => r.id !== id);
+        saveRegistrations(filtered);
+        loadRegistrations();
+      }
+    }
+
+    // الحصول على نص الحالة
+    function getStatusText(status) {
+      const statusMap = {
+        'pending': '⏳ معلق',
+        'accepted': '✓ مقبول',
+        'rejected': '✗ مرفوض'
+      };
+      return statusMap[status] || status;
+    }
+
+    // تنسيق التاريخ
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('ar-SA', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    // تحديث البيانات كل 3 ثواني في لوحة التحكم
+    setInterval(() => {
+      if (document.getElementById('admin').classList.contains('active')) {
+        loadRegistrations();
+      }
+    }, 3000);
+
+    // تحميل البيانات عند فتح الصفحة
+    window.addEventListener('load', () => {
+      // إضافة بعض البيانات التجريبية (يمكن حذفها)
+      const registrations = getRegistrations();
+      if (registrations.length === 0) {
+        // بيانات تجريبية
+        const demoData = [
+          {
+            id: 1,
+            firstName: 'محمد',
+            lastName: 'أحمد',
+            phoneNumber: '0612345678',
+            status: 'pending',
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: 2,
+            firstName: 'فاطمة',
+            lastName: 'علي',
+            phoneNumber: '0698765432',
+            status: 'accepted',
+            createdAt: new Date(Date.now() - 86400000).toISOString()
+          }
+        ];
+        saveRegistrations(demoData);
+      }
+    });
+  </script>
+</body>
+</html>
