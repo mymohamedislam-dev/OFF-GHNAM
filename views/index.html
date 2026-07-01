@@ -81,6 +81,12 @@
           messageDiv.className = 'message success';
           messageDiv.textContent = '✓ تم التسجيل بنجاح! سيتم التواصل معك قريباً';
           document.getElementById('registrationForm').reset();
+        } else if (response.status === 409) {
+          messageDiv.className = 'message error';
+          messageDiv.textContent = '✗ هذا الاسم ورقم الهاتف مسجلان من قبل';
+        } else if (response.status === 403) {
+          messageDiv.className = 'message error';
+          messageDiv.textContent = '✗ ' + (data.error || 'عذراً، لم يتبقَ مكان');
         } else {
           messageDiv.className = 'message error';
           messageDiv.textContent = '✗ ' + (data.error || 'حدث خطأ في التسجيل');

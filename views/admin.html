@@ -9,23 +9,59 @@
 <body>
   <div class="hero">
     <h1>🎛️ لوحة التحكم</h1>
-    <p>إدارة التسجيلات</p>
+    <p>إدارة التسجيلات من أي جهاز</p>
   </div>
 
   <div class="admin-container">
-    <div style="margin-bottom: 20px; text-align: center;">
-      <h2 style="color: #000; margin-bottom: 10px;">التسجيلات المعلقة</h2>
-      <p style="color: #666;">استعرض وقبل أو ارفض الطلبات</p>
+    <div id="loginBox" class="form-container" style="max-width: 450px; margin: 0 auto 20px;">
+      <h2 style="text-align:center; margin-bottom: 15px;">🔐 دخول لوحة التحكم</h2>
+      <div class="form-group">
+        <label for="adminPassword">كلمة المرور *</label>
+        <input type="password" id="adminPassword" placeholder="أدخل كلمة المرور">
+      </div>
+      <button type="button" class="btn-primary" onclick="verifyPassword()">دخول</button>
+      <p id="loginMessage" style="text-align:center; margin-top:10px; color:#8b1e2d;"></p>
     </div>
 
-    <div id="registrationsList" class="registrations-list">
-      <div class="empty-state">
-        <h2>جاري التحميل...</h2>
+    <div id="adminPanel" style="display:none;">
+      <div style="margin-bottom: 20px; text-align: center;">
+        <h2 style="color: #000; margin-bottom: 10px;">التسجيلات</h2>
+        <p style="color: #666;">تظهر التسجيلات من جميع الأجهزة</p>
+      </div>
+
+      <div id="registrationsList" class="registrations-list">
+        <div class="empty-state">
+          <h2>جاري التحميل...</h2>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
+    async function verifyPassword() {
+      const password = document.getElementById('adminPassword').value;
+      const message = document.getElementById('loginMessage');
+
+      try {
+        const response = await fetch('/api/admin/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        });
+
+        if (!response.ok) {
+          message.textContent = 'كلمة المرور غير صحيحة';
+          return;
+        }
+
+        document.getElementById('loginBox').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        loadRegistrations();
+      } catch (error) {
+        message.textContent = 'خطأ في الاتصال بالخادم';
+      }
+    }
+
     async function loadRegistrations() {
       try {
         const response = await fetch('/api/registrations');
@@ -33,14 +69,14 @@
         displayRegistrations(registrations);
       } catch (error) {
         console.error('Error loading registrations:', error);
-        document.getElementById('registrationsList').innerHTML = 
+        document.getElementById('registrationsList').innerHTML =
           '<div class="empty-state"><h2>خطأ في التحميل</h2></div>';
       }
     }
 
     function displayRegistrations(registrations) {
       const container = document.getElementById('registrationsList');
-      
+
       if (registrations.length === 0) {
         container.innerHTML = '<div class="empty-state"><h2>لا توجد تسجيلات حتى الآن</h2></div>';
         return;
@@ -49,7 +85,7 @@
       container.innerHTML = registrations.map(reg => `
         <div class="registration-card">
           <h3>${reg.firstName} ${reg.lastName}</h3>
-          
+
           <div class="registration-info">
             <p><strong>الاسم:</strong> ${reg.firstName} ${reg.lastName}</p>
             <p><strong>الهاتف:</strong> <a href="tel:${reg.phoneNumber}" style="color: #dc143c; text-decoration: none;">${reg.phoneNumber}</a></p>
@@ -63,7 +99,6 @@
           ${reg.status === 'pending' ? `
             <div class="button-group">
               <button class="btn-accept" onclick="acceptRegistration(${reg.id})">✓ قبول</button>
-              <button class="btn-reject" onclick="rejectRegistration(${reg.id})">✗ رفض</button>
             </div>
           ` : ''}
         </div>
@@ -71,12 +106,10 @@
     }
 
     function getStatusText(status) {
-      const statusMap = {
-        'pending': 'معلق',
-        'accepted': 'مقبول',
-        'rejected': 'مرفوض'
-      };
-      return statusMap[status] || status;
+      if (status === 'accepted') {
+        return 'مقبول';
+      }
+      return 'معلق';
     }
 
     async function acceptRegistration(id) {
@@ -85,7 +118,7 @@
           const response = await fetch(`/api/accept/${id}`, { method: 'POST' });
           if (response.ok) {
             loadRegistrations();
-            showNotification('تم قبول التسجيل بنجاح ✓');
+            alert('تم قبول التسجيل بنجاح ✓');
           }
         } catch (error) {
           console.error('Error:', error);
@@ -93,28 +126,11 @@
       }
     }
 
-    async function rejectRegistration(id) {
-      if (confirm('هل تريد رفض هذا التسجيل؟')) {
-        try {
-          const response = await fetch(`/api/reject/${id}`, { method: 'POST' });
-          if (response.ok) {
-            loadRegistrations();
-            showNotification('تم رفض التسجيل ✗');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
+    document.getElementById('adminPassword').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        verifyPassword();
       }
-    }
-
-    function showNotification(message) {
-      // يمكن إضافة نظام إشعارات أفضل هنا
-      alert(message);
-    }
-
-    // تحديث التسجيلات كل 5 ثوان
-    loadRegistrations();
-    setInterval(loadRegistrations, 5000);
+    });
   </script>
 </body>
 </html>
